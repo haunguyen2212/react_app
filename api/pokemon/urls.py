@@ -4,5 +4,5 @@ from .views import PokemonList, PokemonDetail
 
 urlpatterns = [
     path('', PokemonList.as_view(), name='pokemon.list'),
-    # path('<int:pk>/', PokemonDetail.as_view(), name='pokemon.detail')
+    path('<int:pk>/', PokemonDetail.as_view(), name='pokemon.detail')
 ]
