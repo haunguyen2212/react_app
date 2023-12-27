@@ -6,6 +6,10 @@ class ActiveManager(models.Manager):
     def get_queryset(self):
         return super().get_queryset().filter(deleted_at__isnull=True)
     
+class InActiveManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(deleted_at__isnull=False)
+    
 class Type(models.Model):
     name = models.CharField(max_length=30)
     deleted_at = models.DateTimeField(null=True, blank=True)
@@ -30,6 +34,7 @@ class Pokemon(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     objects = ActiveManager()
     all_objects = models.Manager()
+    deleted_objects = InActiveManager()
     
     class Meta:
         ordering = ('no',)
@@ -40,3 +45,6 @@ class Pokemon(models.Model):
     def delete(self, using=None, keep_parents=False):
         self.deleted_at = timezone.now()
         self.save()
+        
+    def force_delete(self):
+        return super().delete()
