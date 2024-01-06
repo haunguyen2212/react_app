@@ -5,7 +5,7 @@ from .serializers import PokemonSerializer
 
 # Create your views here.
 class PokemonList(generics.ListCreateAPIView):
-    queryset = Pokemon.objects.all()
+    queryset = Pokemon.objects.select_related('primary_type').all()
     serializer_class = PokemonSerializer
     
 
